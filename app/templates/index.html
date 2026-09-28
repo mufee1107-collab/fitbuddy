@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        FitBuddy | AI Fitness Plan Generator
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/style.css"
+    >
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+        Fit<span>Buddy</span>
+    </div>
+
+    <nav>
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/docs">
+            API Docs
+        </a>
+
+        <a href="/view-all-users">
+            Admin
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="hero">
+
+    <section class="hero-copy">
+
+        <p class="eyebrow">
+            AI-POWERED WELLNESS PLANNER
+        </p>
+
+        <h1>
+            Your week.
+            <br>
+            <span>Your plan.</span>
+        </h1>
+
+        <p class="lead">
+
+            Generate a structured 7-day
+            activity plan and practical
+            nutrition and recovery guidance
+            with Gemini.
+
+        </p>
+
+        <div class="feature-row">
+
+            <div>
+
+                <strong>
+                    7
+                </strong>
+
+                <span>
+                    Days
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    AI
+                </strong>
+
+                <span>
+                    Personalized
+                </span>
+
+            </div>
+
+            <div>
+
+                <strong>
+                    SQLite
+                </strong>
+
+                <span>
+                    Saved plans
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="card form-card">
+
+        <div class="card-head">
+
+            <h2>
+                Create your plan
+            </h2>
+
+            <p>
+                Enter your details to get started.
+            </p>
+
+        </div>
+
+
+        <form
+            action="/generate-workout"
+            method="post"
+        >
+
+            <div class="grid two">
+
+                <label>
+
+                    Name
+
+                    <input
+                        name="name"
+                        required
+                        maxlength="120"
+                        placeholder="Your name"
+                    >
+
+                </label>
+
+
+                <label>
+
+                    User ID
+
+                    <input
+                        name="user_id"
+                        required
+                        maxlength="64"
+                        pattern="[A-Za-z0-9_-]+"
+                        placeholder="e.g. FB001"
+                    >
+
+                </label>
+
+
+                <label>
+
+                    Age
+
+                    <input
+                        name="age"
+                        type="number"
+                        min="13"
+                        max="100"
+                        required
+                    >
+
+                </label>
+
+
+                <label>
+
+                    Weight (kg)
+
+                    <input
+                        name="weight"
+                        type="number"
+                        min="1"
+                        max="500"
+                        step="0.1"
+                        required
+                    >
+
+                </label>
+
+            </div>
+
+
+            <label>
+
+                Fitness goal
+
+                <select
+                    name="goal"
+                    required
+                >
+
+                    <option
+                        value="general_wellness"
+                    >
+                        General wellness
+                    </option>
+
+                    <option
+                        value="weight_loss"
+                    >
+                        Weight loss
+                    </option>
+
+                    <option
+                        value="muscle_gain"
+                    >
+                        Muscle gain
+                    </option>
+
+                    <option
+                        value="flexibility"
+                    >
+                        Flexibility
+                    </option>
+
+                </select>
+
+            </label>
+
+
+            <label>
+
+                Workout intensity
+
+                <select
+                    name="intensity"
+                    required
+                >
+
+                    <option value="low">
+                        Low
+                    </option>
+
+                    <option
+                        value="medium"
+                        selected
+                    >
+                        Medium
+                    </option>
+
+                    <option value="high">
+                        High
+                    </option>
+
+                </select>
+
+            </label>
+
+
+            <button
+                class="primary"
+                type="submit"
+            >
+
+                Generate My 7-Day Plan →
+
+            </button>
+
+        </form>
+
+
+        <p class="notice">
+
+            FitBuddy provides general wellness
+            information, not medical diagnosis
+            or treatment. Stop if activity causes
+            pain or you feel unwell.
+
+        </p>
+
+    </section>
+
+</main>
+
+</body>
+
+</html>

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        FitBuddy | Your Plan
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+        Fit<span>Buddy</span>
+    </div>
+
+    <nav>
+
+        <a href="/">
+            New Plan
+        </a>
+
+        <a href="/docs">
+            API Docs
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <div class="page-title">
+
+        <div>
+
+            <p class="eyebrow">
+                PERSONALIZED RESULT
+            </p>
+
+            <h1>
+                {{ workout.title }}
+            </h1>
+
+            <p>
+                {{ message }}
+            </p>
+
+        </div>
+
+
+        <a
+            class="secondary"
+            href="/"
+        >
+            Create another
+        </a>
+
+    </div>
+
+
+    <section class="profile-grid">
+
+        <div class="stat">
+
+            <small>
+                Name
+            </small>
+
+            <strong>
+                {{ user.name }}
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>
+                User ID
+            </small>
+
+            <strong>
+                {{ user.user_id }}
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>
+                Age
+            </small>
+
+            <strong>
+                {{ user.age }}
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>
+                Weight
+            </small>
+
+            <strong>
+                {{ user.weight }} kg
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>
+                Goal
+            </small>
+
+            <strong>
+                {{ user.goal.replace('_', ' ').title() }}
+            </strong>
+
+        </div>
+
+
+        <div class="stat">
+
+            <small>
+                Intensity
+            </small>
+
+            <strong>
+                {{ user.intensity.title() }}
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <section class="card overview">
+
+        <h2>
+            Plan Overview
+        </h2>
+
+        <p>
+            {{ workout.overview }}
+        </p>
+
+        <div class="safety">
+
+            {{ workout.safety_note }}
+
+        </div>
+
+    </section>
+
+
+    <section class="days">
+
+        {% for day in workout.days %}
+
+        <article class="card day-card">
+
+            <div class="day-head">
+
+                <span>
+                    {{ day.day }}
+                </span>
+
+                <h2>
+                    {{ day.focus }}
+                </h2>
+
+            </div>
+
+
+            <div class="columns">
+
+
+                <div>
+
+                    <h3>
+                        Warm-up
+                    </h3>
+
+                    <ul>
+
+                        {% for item in day.warm_up %}
+
+                        <li>
+                            {{ item }}
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+
+                <div>
+
+                    <h3>
+                        Main workout
+                    </h3>
+
+                    <div class="exercise-list">
+
+                        {% for ex in day.exercises %}
+
+                        <div class="exercise">
+
+                            <strong>
+                                {{ ex.name }}
+                            </strong>
+
+                            <span>
+
+                                {{ ex.sets }}
+                                sets ·
+                                {{ ex.reps_or_duration }}
+                                · Rest:
+                                {{ ex.rest }}
+
+                            </span>
+
+
+                            {% if ex.notes %}
+
+                            <small>
+                                {{ ex.notes }}
+                            </small>
+
+                            {% endif %}
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <div>
+
+                    <h3>
+                        Cooldown / recovery
+                    </h3>
+
+                    <ul>
+
+                        {% for item in day.cool_down %}
+
+                        <li>
+                            {{ item }}
+                        </li>
+
+                        {% endfor %}
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </article>
+
+        {% endfor %}
+
+    </section>
+
+
+    <section class="card tip">
+
+        <p class="eyebrow">
+            NUTRITION & RECOVERY
+        </p>
+
+        <h2>
+            {{ nutrition.title }}
+        </h2>
+
+        <p>
+            {{ nutrition.tip }}
+        </p>
+
+
+        <div class="tip-grid">
+
+            <div>
+
+                <strong>
+                    Hydration
+                </strong>
+
+                <p>
+                    {{ nutrition.hydration }}
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    Recovery
+                </strong>
+
+                <p>
+                    {{ nutrition.recovery }}
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="card feedback">
+
+        <p class="eyebrow">
+            ADAPT YOUR PLAN
+        </p>
+
+        <h2>
+            Give feedback
+        </h2>
+
+        <p>
+
+            Tell FitBuddy what you would like
+            changed, such as adding more mobility
+            or making the sessions easier.
+
+        </p>
+
+
+        <form
+            action="/submit-feedback"
+            method="post"
+        >
+
+            <input
+                type="hidden"
+                name="user_id"
+                value="{{ user.user_id }}"
+            >
+
+
+            <textarea
+                name="feedback"
+                required
+                maxlength="1000"
+                placeholder="Example: Please make the sessions gentler and include more mobility."
+            ></textarea>
+
+
+            <button
+                class="primary"
+                type="submit"
+            >
+
+                Update My Plan →
+
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
+
+</body>
+
+</html>

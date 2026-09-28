@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        FitBuddy | Admin Dashboard
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+        Fit<span>Buddy</span>
+    </div>
+
+    <nav>
+
+        <a href="/">
+            Home
+        </a>
+
+        <a href="/docs">
+            API Docs
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <div class="page-title">
+
+        <div>
+
+            <p class="eyebrow">
+                ADMIN DASHBOARD
+            </p>
+
+            <h1>
+                Registered users & plans
+            </h1>
+
+        </div>
+
+    </div>
+
+
+    {% if not rows %}
+
+    <section class="card">
+
+        <p>
+            No users have been registered yet.
+        </p>
+
+    </section>
+
+    {% endif %}
+
+
+    {% for row in rows %}
+
+    <section class="card admin-card">
+
+        <div class="admin-head">
+
+            <div>
+
+                <p class="eyebrow">
+                    {{ row.user.user_id }}
+                </p>
+
+                <h2>
+                    {{ row.user.name }}
+                </h2>
+
+                <p>
+
+                    {{ row.user.age }}
+                    years ·
+
+                    {{ row.user.weight }}
+                    kg ·
+
+                    {{ row.user.goal
+                    .replace('_', ' ')
+                    .title() }}
+
+                    ·
+
+                    {{ row.user.intensity.title() }}
+
+                </p>
+
+            </div>
+
+
+            <form
+                action="/admin/delete/{{ row.user.user_id }}"
+                method="post"
+                onsubmit="return confirm('Delete this user and their plans?')"
+            >
+
+                <button
+                    class="danger"
+                    type="submit"
+                >
+                    Delete
+                </button>
+
+            </form>
+
+        </div>
+
+
+        {% if row.plan %}
+
+        <details>
+
+            <summary>
+                View original plan
+            </summary>
+
+            <pre>
+{{ row.plan.original_plan }}
+            </pre>
+
+        </details>
+
+
+        {% if row.plan.updated_plan %}
+
+        <details open>
+
+            <summary>
+                View updated plan
+            </summary>
+
+            <pre>
+{{ row.plan.updated_plan }}
+            </pre>
+
+        </details>
+
+        {% endif %}
+
+
+        {% if row.plan.last_feedback %}
+
+        <div class="feedback-note">
+
+            <strong>
+                Last feedback:
+            </strong>
+
+            {{ row.plan.last_feedback }}
+
+        </div>
+
+        {% endif %}
+
+        {% endif %}
+
+    </section>
+
+    {% endfor %}
+
+</main>
+
+</body>
+
+</html>
